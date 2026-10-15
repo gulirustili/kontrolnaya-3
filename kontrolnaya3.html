@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guli | Rus tili — Контрольная</title>
+<style>
+:root{--purple:#7c3aed;--purple-dark:#5b21b6;--purple-light:#f3ecfd;--bg:#faf8ff;--text:#201533;--gray:#6b6478;--green:#15803d;--red:#b91c1c;--border:#e6ddf5;--gold:#d97706}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+header{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;padding:20px 18px 24px;text-align:center}
+header h1{margin:4px 0 0;font-size:1.3rem}header p{margin:0;font-size:.85rem;opacity:.9}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 60px}
+.hidden{display:none!important}
+label.f{display:block;font-size:.85rem;color:var(--gray);font-weight:600;margin:14px 0 4px}
+input.name{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:10px;font-size:1rem;background:#fff}
+.books{display:grid;gap:10px;margin-top:6px}
+.bk{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;font-weight:700;color:var(--purple-dark);text-align:left;font-size:1rem}
+.bk small{display:block;font-weight:400;color:var(--gray);font-size:.78rem}
+.bk.sel{border-color:var(--purple);background:var(--purple-light)}
+.btn{width:100%;margin-top:18px;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer}
+.btn.alt{background:#fff;color:var(--purple-dark);border:2px solid var(--purple-light);margin-top:10px}
+.note{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:.85rem;color:var(--gray);margin-top:16px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.timer{font-weight:800;font-size:1.15rem;color:var(--purple-dark);font-variant-numeric:tabular-nums}
+.timer.low{color:var(--red)}
+.pbar{flex:1;height:8px;background:var(--purple-light);border-radius:4px;overflow:hidden}.pfill{height:100%;background:var(--purple);width:0}
+.cnt{font-size:.8rem;color:var(--gray);white-space:nowrap}
+.sec{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:16px}
+.sec h2{font-size:1rem;margin:0 0 4px;color:var(--purple-dark)}
+.sec .nt{font-size:.82rem;color:var(--gray);margin:0 0 6px}
+.instr{font-size:.88rem;font-weight:600;margin:10px 0 6px}
+.it{padding:8px 0;border-top:1px solid var(--border)}
+.it:first-of-type{border-top:none}
+.q{font-size:.95rem;margin-bottom:6px}
+.hint{font-size:.75rem;color:var(--gray)}
+.in{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:9px;font-size:1rem;background:#fff;margin-top:2px}
+.in:focus{outline:none;border-color:var(--purple)}
+.pr{display:flex;gap:8px}.pr .in{flex:1;min-width:0}
+.ok .in{border-color:var(--green);background:#f0fdf4}.bad .in{border-color:var(--red);background:#fef2f2}
+.fb{font-size:.82rem;margin-top:4px}.fb.g{color:var(--green)}.fb.r{color:var(--red)}
+.fb b{color:var(--purple-dark)}
+.result{text-align:center;background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px 16px;margin-top:16px}
+.result .em{font-size:3rem}.result .sc{font-size:2.2rem;font-weight:800;color:var(--purple-dark)}
+.result .gr{font-size:1.1rem;font-weight:700}
+textarea.st{width:100%;height:120px;margin-top:10px;border:2px solid var(--border);border-radius:10px;padding:8px;font-size:.8rem}
+.links a{display:inline-block;margin:6px 6px 0 0;padding:8px 12px;border-radius:8px;background:var(--purple-light);color:var(--purple-dark);font-weight:700;text-decoration:none;font-size:.85rem}
+footer{text-align:center;color:var(--gray);font-size:.75rem;padding:10px 20px 30px}
+</style></head><body>
+<header><p>Guli | Rus tili</p><h1>📝 Контрольная работа</h1></header>
+<div class="wrap">
+ <div id="setup">
+  <label class="f" for="nm">Твоё имя и фамилия</label>
+  <input id="nm" class="name" placeholder="Например: Азиза Каримова" autocomplete="name">
+  <label class="f">Выбери контрольную</label>
+  <div class="books" id="books"></div>
+  <div class="note">⏱ На работу даётся <b>1 час</b>. Пиши ответы с клавиатуры. Когда время выйдет, работа завершится сама. Все ответы проверяются автоматически, в конце ты увидишь оценку и правильные ответы. Словарный опрос учитель проводит устно.</div>
+  <button class="btn" id="start">Начать контрольную</button>
+ </div>
+ <div id="work" class="hidden">
+  <div class="bar"><span class="timer" id="tm">60:00</span><div class="pbar"><div class="pfill" id="pf"></div></div><span class="cnt" id="cnt">0/0</span></div>
+  <div id="sections"></div>
+  <button class="btn" id="finish">✅ Завершить работу</button>
+ </div>
+ <div id="res" class="hidden">
+  <div class="result"><div class="em" id="r-em"></div><div class="sc" id="r-sc"></div><div class="gr" id="r-gr"></div><div class="hint" id="r-ex"></div></div>
+  <button class="btn" id="send">📨 Отправить учителю</button>
+  <div id="fallback" class="hidden"><div class="note">Текст скопирован. Отправь его учителю:</div><textarea class="st" id="stext" readonly></textarea><div class="links"><a id="tg" target="_blank" rel="noopener">Telegram</a><a id="wa" target="_blank" rel="noopener">WhatsApp</a></div></div>
+  <div class="instr" style="margin-top:18px">Разбор ответов — ниже ⬇</div>
+  <div id="review"></div>
+  <button class="btn alt" id="again">← Выбрать другую контрольную</button>
+ </div>
+</div>
+<footer>Guli | Rus tili</footer>
+<script>
+const BOOKS = [{"id":"3","name":"Книга 3","range":"уроки 23–41","minutes":60,"max":62,"scale":[[56,5,"Отлично"],[47,4,"Хорошо"],[35,3,"Удовлетворительно"],[0,2,"Неудовлетворительно"]],"sections":[{"title":"Раздел 1. Винительный падеж (Кого? Что?)","points":6,"tasks":[{"instr":"Поставь слово в скобках в винительный падеж.","items":[{"t":"fill","q":"Мы встречаем (знакомый художник) ___.","a":["знакомого художника"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Она купила (новая сумка) ___.","a":["новую сумку"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Я читаю (интересная газета) ___.","a":["интересную газету"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Они ждут (молодой актёр) ___.","a":["молодого актера"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Мы смотрим (новый фильм) ___.","a":["новый фильм"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Я вижу (большая птица) ___.","a":["большую птицу"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 2. Предлоги в / на + винительный падеж","points":6,"tasks":[{"instr":"Вставь предлог (в / на) и поставь слово в винительный падеж.","items":[{"t":"parts","q":"Он идёт ___ (большая аптека) ___.","parts":[{"ph":"предлог","a":["в"]},{"ph":"слово в нужной форме","a":["большую аптеку"]}],"p":1},{"t":"parts","q":"Мы едем ___ (центральный рынок) ___.","parts":[{"ph":"предлог","a":["на"]},{"ph":"слово в нужной форме","a":["центральный рынок"]}],"p":1},{"t":"parts","q":"Она идёт ___ (интересная выставка) ___.","parts":[{"ph":"предлог","a":["на"]},{"ph":"слово в нужной форме","a":["интересную выставку"]}],"p":1},{"t":"parts","q":"Я иду ___ (новый ресторан) ___.","parts":[{"ph":"предлог","a":["в"]},{"ph":"слово в нужной форме","a":["новый ресторан"]}],"p":1},{"t":"parts","q":"Они едут ___ (красивое озеро) ___.","parts":[{"ph":"предлог","a":["на"]},{"ph":"слово в нужной форме","a":["красивое озеро"]}],"p":1},{"t":"parts","q":"Ты идёшь ___ (маленькая комната) ___.","parts":[{"ph":"предлог","a":["в"]},{"ph":"слово в нужной форме","a":["маленькую комнату"]}],"p":1}]}]},{"title":"Раздел 3. Предложный падеж (Где? О ком? О чём?)","points":6,"tasks":[{"instr":"Поставь слово в скобках в предложный падеж (предлог уже дан).","items":[{"t":"fill","q":"Мы были в (старый музей) ___.","a":["старом музее","в старом музее"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Она работает в (большая аптека) ___.","a":["большой аптеке","в большой аптеке"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Он думает о (будущая профессия) ___.","a":["будущей профессии","о будущей профессии"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Книги лежат на (нижняя полка) ___.","a":["нижней полке","на нижней полке"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Мы говорили о (наши планы) ___.","a":["наших планах","о наших планах"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Они отдыхали в (красивые горы) ___.","a":["красивых горах","в красивых горах"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 4. Родительный падеж (Чей? У кого? Нет чего?)","points":6,"tasks":[{"instr":"Поставь слово в скобках в родительный падеж.","items":[{"t":"fill","q":"Это сумка (моя тётя) ___.","a":["моей тети"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Это машина (мой дядя) ___.","a":["моего дяди"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"У (моя соседка) ___ есть кот.","a":["моей соседки"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"В городе нет (хороший кинотеатр) ___.","a":["хорошего кинотеатра"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Сегодня нет (сильный дождь) ___.","a":["сильного дождя"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Это окно (наша лаборатория) ___.","a":["нашей лаборатории"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 5. Из / с / от / для / до / без","points":6,"tasks":[{"instr":"Вставь предлог и поставь слово в скобках в родительный падеж. (1 балл только если верны и предлог, и окончание.)","items":[{"t":"parts","q":"Он пришёл ___ (работа) ___.","parts":[{"ph":"предлог","a":["с"]},{"ph":"слово в нужной форме","a":["работы"]}],"p":1},{"t":"parts","q":"Мы приехали ___ (Самарканд) ___.","parts":[{"ph":"предлог","a":["из"]},{"ph":"слово в нужной форме","a":["самарканда"]}],"p":1},{"t":"parts","q":"Это письмо ___ (моя тётя) ___.","parts":[{"ph":"предлог","a":["от"]},{"ph":"слово в нужной форме","a":["моей тети"]}],"p":1},{"t":"parts","q":"Я купил подарок ___ (младшая сестра) ___.","parts":[{"ph":"предлог","a":["для"]},{"ph":"слово в нужной форме","a":["младшей сестры"]}],"p":1},{"t":"parts","q":"Я иду пешком ___ (вокзал) ___.","parts":[{"ph":"предлог","a":["до"]},{"ph":"слово в нужной форме","a":["вокзала"]}],"p":1},{"t":"parts","q":"Он пьёт чай ___ (сахар) ___.","parts":[{"ph":"предлог","a":["без"]},{"ph":"слово в нужной форме","a":["сахара"]}],"p":1}]}]},{"title":"Раздел 6. Родительный падеж множественного числа","points":6,"tasks":[{"instr":"Поставь слово в скобках в родительный падеж множественного числа.","items":[{"t":"fill","q":"В магазине много (яблоко) ___.","a":["яблок"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"У нас мало (деньги) ___.","a":["денег"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"На столе несколько (книга) ___.","a":["книг"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"В городе много (улица) ___.","a":["улиц"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"У него нет (родственник) ___.","a":["родственников"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Сколько (минута) ___ осталось?","a":["минут"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 7. Дательный падеж (Кому? К кому? По чему?)","points":6,"tasks":[{"instr":"Поставь слово в скобках в дательный падеж (предлог дан, если нужен).","items":[{"t":"fill","q":"Я позвонил (старшая сестра) ___.","a":["старшей сестре"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Мы дали подарок (маленький мальчик) ___.","a":["маленькому мальчику"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Она помогает (пожилой человек) ___.","a":["пожилому человеку"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Я иду к (мой дядя) ___.","a":["моему дяде","к моему дяде"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Он идёт к (дантист) ___.","a":["дантисту","к дантисту"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Мы гуляли по (старая площадь) ___.","a":["старой площади","по старой площади"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 8. Творительный падеж (С кем? Кем? Чем?)","points":6,"tasks":[{"instr":"Поставь слово в скобках в творительный падеж (предлог дан, если нужен).","items":[{"t":"fill","q":"Я работаю с (хороший специалист) ___.","a":["хорошим специалистом","с хорошим специалистом"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Он хочет стать (известный певец) ___.","a":["известным певцом"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Мы пьём чай с (лимон) ___.","a":["лимоном","с лимоном"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Она интересуется (современная музыка) ___.","a":["современной музыкой"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Рядом с (новый вокзал) ___ большая площадь.","a":["новым вокзалом","с новым вокзалом","рядом с новым вокзалом"],"p":1,"ph":"Слово в нужной форме"},{"t":"fill","q":"Они работают (опытные инженеры) ___.","a":["опытными инженерами"],"p":1,"ph":"Слово в нужной форме"}]}]},{"title":"Раздел 9. Определи падеж","points":6,"tasks":[{"instr":"Определи падеж слова в скобках [ ] и напиши его название (именительный, винительный, родительный, дательный, творительный, предложный).","items":[{"t":"fill","q":"Мы говорили о [художнике].","a":["предложный"],"p":1,"ph":"название падежа"},{"t":"fill","q":"Он вышел из [дома].","a":["родительный"],"p":1,"ph":"название падежа"},{"t":"fill","q":"Она дала книгу [мальчику].","a":["дательный"],"p":1,"ph":"название падежа"},{"t":"fill","q":"Мы пили чай с [молоком].","a":["творительный"],"p":1,"ph":"название падежа"},{"t":"fill","q":"Я вижу [птицу].","a":["винительный"],"p":1,"ph":"название падежа"},{"t":"fill","q":"Это сумка моей [мамы].","a":["родительный"],"p":1,"ph":"название падежа"}]}]},{"title":"Раздел 10. Перевод предложений (с узбекского на русский)","points":8,"note":"Переведи предложения на русский язык полностью. Предложения 5 и 6 сложнее — в них несколько падежей сразу.","tasks":[{"instr":"","items":[{"t":"tr","q":"Men bozorga boraman.","groups":["(^| )(?:я)( |$)","(иду|пойду|еду|поеду|хожу|езжу)","(^| )(?:на рынок|на базар)( |$)"],"p":1,"sample":"Я иду на рынок."},{"t":"tr","q":"U dugonasiga kitob berdi.","groups":["(^| )(?:он|она)( |$)","(^| )(?:дала|дал|подарила|подарил|отдала|отдал)( |$)","книг","подруг"],"p":1,"sample":"Она дала книгу подруге."},{"t":"tr","q":"Biz do'konda sut va non sotib oldik.","groups":["(^| )(?:мы)( |$)","купили","(^| )(?:в магазине)( |$)","молок","хлеб"],"p":1,"sample":"Мы купили в магазине молоко и хлеб."},{"t":"tr","q":"Bugun xonada hech kim yo'q.","groups":["(^| )(?:сегодня)( |$)","(^| )(?:в комнате)( |$)","(^| )(?:никого)( |$)","(^| )(?:нет)( |$)"],"p":1,"sample":"Сегодня в комнате никого нет."},{"t":"tr","q":"Men akamning do'sti bilan kinoga bordim, keyin uyga qaytdim.","groups":["(ходил|ходила|пошел|пошла|сходил|сходила|ездил|ездила)","(^| )(?:в кино)( |$)","(^| )(?:с другом)( |$)","брата","(^| )(?:потом|затем|после)( |$)","вернул","(домой|дом)"],"p":2,"sample":"Я ходил(а) в кино с другом моего брата, потом вернулся (вернулась) домой."},{"t":"tr","q":"Opam yangi ishi haqida gapirdi va menga katta sovg'a berdi.","groups":["(^| )(?:сестра)( |$)","(рассказал|говорил|сказал|поговорил)","работе","нов","(^| )(?:дала|подарила)( |$)","(^| )(?:мне)( |$)","больш","(подарок|подарк)"],"p":2,"sample":"Сестра рассказала о своей новой работе и дала мне большой подарок."}]}]}]}];
+const norm = s => String(s||"").toLowerCase().replace(/ё/g,"е").replace(/\s[-–—]\s/g," ").replace(/[.,!?…;:"«»()→\/]/g," ").replace(/\s+/g," ").trim();
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $ = id => document.getElementById(id);
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+let cur=null, items=[], tick=null, endAt=0, done=false, lastReport="";
+$("nm").value = lsGet("kr_name")||"";
+let selBook=BOOKS.length===1?BOOKS[0]:null;
+if(selBook){$("books").previousElementSibling.classList.add("hidden");$("books").classList.add("hidden");document.querySelector("header h1").textContent="📝 Контрольная — "+selBook.name;document.title="Guli | Rus tili — Контрольная "+selBook.name}
+BOOKS.forEach(b=>{const e=document.createElement("button");e.className="bk";e.innerHTML=b.name+"<small>"+b.range+" · "+b.max+" баллов · "+b.minutes+" минут</small>";e.onclick=()=>{selBook=b;document.querySelectorAll(".bk").forEach(x=>x.classList.remove("sel"));e.classList.add("sel")};$("books").appendChild(e)});
+
+function grade(b,pts){for(const [m,g,l] of b.scale) if(pts>=m) return [g,l];return [2,""]}
+function maxOf(b){let m=0;b.sections.forEach(s=>s.tasks.forEach(t=>t.items.forEach(i=>m+=i.p)));return m}
+
+function checkItem(it,vals){
+  // returns {score, model}
+  if(it.t==="fill"){
+    const v=norm(vals[0]); if(!v) return {s:0};
+    const ok=it.a.some(a=>{const n=norm(a);return v===n||v.endsWith(" "+n)});
+    return {s:ok?it.p:0};
+  }
+  if(it.t==="parts"){
+    let c=0;it.parts.forEach((p,i)=>{const v=norm(vals[i]);if(p.a.some(a=>{const n=norm(a);return v===n||(v&&v.endsWith(" "+n))}))c++});
+    if(it.p===it.parts.length) return {s:c};
+    return {s:c===it.parts.length?it.p:0};
+  }
+  const v=norm(vals[0]); if(!v) return {s:0};
+  const words=v.split(" ").length;
+  const m=it.groups.filter(g=>new RegExp(g).test(v)).length, n=it.groups.length;
+  if(it.t==="rule"){return {s:(m===n&&words>=it.min)?it.p:0}}
+  // tr
+  if(it.p===1) return {s:m/n>=0.75?1:0};
+  return {s:m===n?it.p:(m/n>=0.6?it.p-1:0)};
+}
+function modelOf(it){
+  if(it.t==="fill") return it.a[0];
+  if(it.t==="parts") return it.parts.map(p=>p.a[0]).join(" + ");
+  return it.sample;
+}
+
+function build(b){
+  cur=b;items=[];let n=0;const root=$("sections");root.innerHTML="";
+  b.sections.forEach(s=>{
+    const d=document.createElement("div");d.className="sec";
+    let h='<h2>'+esc(s.title)+'</h2>'+(s.note?'<p class="nt">'+esc(s.note)+'</p>':'');
+    s.tasks.forEach(t=>{
+      if(t.instr) h+='<div class="instr">'+esc(t.instr)+'</div>';
+      t.items.forEach(it=>{
+        const id=n++;items.push(it);it._id=id;
+        h+='<div class="it" id="it'+id+'"><div class="q">'+(it.t==="tr"?'🇺🇿 ':'')+esc(it.q)+'</div>';
+        if(it.hint) h+='<div class="hint">'+esc(it.hint)+'</div>';
+        if(it.t==="parts") h+='<div class="pr">'+it.parts.map((p,i)=>'<input class="in" data-i="'+id+'" data-k="'+i+'" placeholder="'+esc(p.ph)+'" autocapitalize="off" autocomplete="off" spellcheck="false">').join("")+'</div>';
+        else h+='<input class="in" data-i="'+id+'" data-k="0" placeholder="'+esc(it.ph||(it.t==="tr"?"Перевод на русский":"Ответ"))+'" autocapitalize="off" autocomplete="off" spellcheck="false">';
+        h+='<div class="fb"></div></div>';
+      });
+    });
+    d.innerHTML=h;root.appendChild(d);
+  });
+  root.addEventListener("input",upd);upd();
+}
+function vals(id){return [...document.querySelectorAll('input[data-i="'+id+'"]')].map(x=>x.value)}
+function upd(){let a=0;items.forEach(it=>{if(vals(it._id).every(v=>v.trim()))a++});$("cnt").textContent=a+"/"+items.length;$("pf").style.width=(items.length?a/items.length*100:0)+"%"}
+
+function fmt(ms){const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+$("start").onclick=()=>{
+  const name=$("nm").value.trim();
+  if(!name){alert("Напиши своё имя и фамилию.");$("nm").focus();return}
+  if(!selBook){alert("Выбери контрольную.");return}
+  lsSet("kr_name",name);
+  $("setup").classList.add("hidden");$("res").classList.add("hidden");$("work").classList.remove("hidden");
+  done=false;build(selBook);window.scrollTo(0,0);
+  const total=selBook.minutes*60000;endAt=Date.now()+total;
+  const t=()=>{const left=endAt-Date.now();$("tm").textContent=fmt(left);$("tm").classList.toggle("low",left<5*60000);if(left<=0)finish(true)};
+  t();tick=setInterval(t,500);
+};
+$("finish").onclick=()=>{
+  const empty=items.filter(it=>!vals(it._id).every(v=>v.trim())).length;
+  if(empty&&!confirm("Не заполнено ответов: "+empty+". Завершить работу?"))return;
+  finish(false);
+};
+function finish(timeUp){
+  if(done)return;done=true;clearInterval(tick);
+  const used=Math.min(cur.minutes*60000,cur.minutes*60000-(endAt-Date.now()));
+  let pts=0;const mist=[];let k=0;const rv=$("review");rv.innerHTML="";
+  cur.sections.forEach(s=>{
+    let sp=0,sm=0;const blk=document.createElement("div");blk.className="sec";let h='<h2>'+esc(s.title)+'</h2>';
+    s.tasks.forEach(t=>t.items.forEach(it=>{
+      const v=vals(it._id),r=checkItem(it,v);pts+=r.s;sp+=r.s;sm+=it.p;
+      const full=r.s===it.p, part=r.s>0&&!full;
+      const ans=v.map(x=>x.trim()).join(" | ")||"—";
+      h+='<div class="it '+(full?'ok':'bad')+'"><div class="q">'+(full?'✅':part?'🟡':'❌')+' '+esc(it.q)+'</div>'+
+        '<div class="fb '+(full?'g':'r')+'">Твой ответ: '+esc(ans)+(r.s!==it.p?' ('+r.s+'/'+it.p+')':'')+'</div>'+
+        (full?'':'<div class="fb">Правильно: <b>'+esc(modelOf(it))+'</b></div>')+'</div>';
+      if(!full) mist.push({q:it.q,a:modelOf(it),p:ans});
+    }));
+    blk.innerHTML=h.replace("</h2>"," <span class='hint'>("+sp+"/"+sm+")</span></h2>");rv.appendChild(blk);
+  });
+  document.querySelectorAll(".in").forEach(x=>x.disabled=true);
+  const mx=maxOf(cur);const scaled=Math.round(pts/mx*cur.max);
+  const [g,l]=grade(cur,scaled);
+  $("work").classList.add("hidden");$("res").classList.remove("hidden");
+  $("r-em").textContent=g>=5?"🏆":g===4?"🎉":g===3?"👍":"💪";
+  $("r-sc").textContent=pts+" из "+mx;$("r-gr").textContent="Оценка: "+g+" — "+l;
+  $("r-ex").textContent=(timeUp?"⏱ Время вышло. ":"")+"Время работы: "+Math.floor(used/60000)+" мин "+Math.floor(used%60000/1000)+" с";
+  const d=new Date();const ds=d.toLocaleDateString("ru-RU")+" "+d.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  const nm=$("nm").value.trim();
+  lastReport=["📝 Guli | Rus tili — Контрольная","Ученик: "+nm,cur.name+" ("+cur.range+")","Баллы: "+pts+"/"+mx,"Оценка: "+g+" ("+l+")","Время: "+Math.floor(used/60000)+" мин "+Math.floor(used%60000/1000)+" с"+(timeUp?" (время вышло)":""),"Дата: "+ds,
+    mist.length?"Ошибки ("+mist.length+"): "+mist.map(m=>m.q+" — "+m.a+" (ответил: "+m.p+")").join("; "):"Ошибок нет!"].join("\n");
+  try{const h=JSON.parse(lsGet("kr_history")||"[]");h.push({name:nm,book:cur.id,pts,max:mx,grade:g,date:Date.now()});lsSet("kr_history",JSON.stringify(h.slice(-200)))}catch(e){}
+  $("fallback").classList.add("hidden");window.scrollTo(0,0);
+}
+$("send").onclick=async()=>{
+  if(navigator.share){try{await navigator.share({text:lastReport});return}catch(e){if(e&&e.name==="AbortError")return}}
+  try{await navigator.clipboard.writeText(lastReport)}catch(e){}
+  $("stext").value=lastReport;
+  $("tg").href="https://t.me/share/url?url=%20&text="+encodeURIComponent(lastReport);
+  $("wa").href="https://wa.me/?text="+encodeURIComponent(lastReport);
+  $("fallback").classList.remove("hidden");
+};
+$("again").onclick=()=>{$("res").classList.add("hidden");$("setup").classList.remove("hidden");window.scrollTo(0,0)};
+window.addEventListener("beforeunload",e=>{if(!done&&!$("work").classList.contains("hidden")){e.preventDefault();e.returnValue=""}});
+</script></body></html>
